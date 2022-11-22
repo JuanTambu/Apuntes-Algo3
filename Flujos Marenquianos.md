@@ -15,6 +15,8 @@ Que es flujo? Algo raro? Si
 | $s, t$            | Donde empieza(Source) y donde termina(Target(o Tfinish si sos :sunglasses:)) la red. |
 |                   |                                                              |
 
+# Flujo Maximo
+
 Dado una red (digrafo) $G = (V,E)$, unos nodos de origen y destino $s, t \in V$ de origen y destino; y una función de capacidad $u: E \rarr \mathbb{Z}_+$ asociada con los edges.
 
 Un flujo es una funcion $x : E \rarr \mathbb{Z}_+$ y cumple:
@@ -27,13 +29,13 @@ Un flujo es una funcion $x : E \rarr \mathbb{Z}_+$ y cumple:
 
 ![image-20221024175736186](/home/tambu/.config/Typora/typora-user-images/image-20221024175736186.png)
 
-### Observación (Teórica):
-
-Para todo flujo válido $x$ existe otro flujo donde no entra nada a $s$ y no sale nada de $t$.
-
 ### Problema:
 
 Maximizar el valor del flujo para una red dada.
+
+### Observación (Teórica):
+
+Para todo flujo válido $x$ existe otro flujo donde no entra nada a $s$ y no sale nada de $t$.
 
 ------
 
@@ -186,6 +188,8 @@ Ahora para buscar caminos de aumento, usamos BFS para encontrarlos. Convierte la
 
 [^demo]: No trivial, dijo que después subía la demo. No van a estar aca
 
+
+
 # Matching máximo en grafos bipartitos
 
 Un matching máximo o correspondencia entre los vértices de $G$, es un conjunto $M \subseteq E$ de aristas de $G$ tal que para todo $v \in V$, v es incidente a lo sumo a una arista de M. Es un conjunto de aristas que no comparten vertices entre si.
@@ -199,6 +203,8 @@ TODO: Agregar un ejemplito.
 
 
 # Flujo de Costo Mínimo
+
+## Definición:
 
 Es una generalización del problema de encontrar flujos.
 
@@ -228,6 +234,8 @@ Es una generalización del problema de encontrar flujos.
 
 
 
+## Red Residual:
+
 Red residual $G_x$ del flujo $x$ reemplazando cada arco $ij \in A$ por dos arcos $ij$ y $ji$ cumpliendo:
 
 1. El arco $ij$ tien costo $c_{ij}$ y capacidad residual $r_{ij} = u_{ij} - x_{ij}$
@@ -235,7 +243,7 @@ Red residual $G_x$ del flujo $x$ reemplazando cada arco $ij \in A$ por dos arcos
 
 La red residual consiste solamente de los arcos con capacidad residual positiva.
 
-
+**Teorema:** Si todos los imbalances y capacidades son enteros entonces el problema de flujo de costo minimo tiene una solución óptima entera.
 
 ==**Teorema:**== Una solución factible $x$ es optima si y solo si la red residual $G_x$ no contiene ningún ciclo dirigido de costo negativo.
 Demostración:
@@ -265,11 +273,53 @@ Supongamos que $G_{x^*}$ tiene un ciclo de costo negativo y sea $\bar{x}$ una ci
 
 ## Algoritmo de cancelacion de ciclos:
 
-A partir de un flujo factible, mientras exista un ciclo negativo aumentar el flujo a lo largo de ese ciclo.
+A partir de un flujo factible, podemos obtener flujos de la misma capacidad pero menor costo, hasta que no sea posible. Estas mejoras provienen de enciar flujo por los ciclos negativos del grafo residual de G. En particular si empezamos desde algun flujo maximo, podemos mejorarlo a un flujo maximo de costo minimo.
 
-¿Pero como encuentro el flujo factible?
-Puedo modelar a nuestro problema de flujo minimo en uno de flujo maximo, conectando a todas
+### Ejemplo:
 
+![image-20221121195247485](Flujos Marenquianos.assets/image-20221121195247485.png)
 
+![image-20221121195414472](Flujos Marenquianos.assets/image-20221121195414472.png)
 
-Teorema: Si todos los imbalances y capacidades son enteros encontces el problema de flujo de costo minimo tiene una solución óptima entera.
+![image-20221121195457822](Flujos Marenquianos.assets/image-20221121195457822.png)
+
+![image-20221121195509394](Flujos Marenquianos.assets/image-20221121195509394.png)
+
+![image-20221121195555818](Flujos Marenquianos.assets/image-20221121195555818.png)
+
+![image-20221121195611575](Flujos Marenquianos.assets/image-20221121195611575.png)
+
+![image-20221121195640965](Flujos Marenquianos.assets/image-20221121195640965.png)
+
+![image-20221121195658362](Flujos Marenquianos.assets/image-20221121195658362.png)
+
+```
+encontrar flujo maximo
+correr bellman-ford y encontrar un ciclo negativo
+Encontrar la capacidad maxima de ese ciclo
+Subir/Bajar el flujo de esas aristas por la cantidad encontrada
+```
+
+### Complejidad:
+
+Costo por iteración: $O(m*n)$ de Bellman-Ford( :bell::man: - :car: )
+Cantidad de Iteraciones: $O(mCU)$ donde $C$ es el costo maximo de una arista, y $U$ la capacidad maxima de una arista
+
+$\implies O(nm^2CU)$
+
+Se puede mejorar un poco esta complejidad si en vez de tomar cualquier ciclo se toma el ciclo de minimo costo promedio[^costo promedio], el costo baja a $O(\min\{nm\lg(nC),\ nm^2\lg(n)\})$
+
+[^costo promedio]: para un ciclo $W$, el costo promedio $\bar{C}(W)$ es $\sum_{v \rarr w \in W}c(v \rarr w)/|W|$
+
+## Algoritmo Succesive Shortest Paths
+
+Construyo el flujo usando los caminos de aumentos de la red Residual pero siempre eligiendo el camino de menor costo. Si empezamos siempre desde el flujo 0 esto nos asegura que siempre estamos agregando la unidad de flujo más barata.
+
+### Complejidad:
+
+Cantidad de iteraciones: $O(nU)$
+Costo por iteración: $O(mn)$ (Bellman-Ford)
+
+Costo Total: $O(mn^2U)$
+
+Esto se puede mejorar, se puede modificar para usar a Dijkstra en vez de Bellman-Ford. Tambien se puede bajar la cantidad de iteraciones a $O(m\lg(U))$(las diapos de las practicas estaban poco claras). Y nos deja con una complejidad total de $O(m\lg(U)*\min\{n^2,m\lg(n)\})$
