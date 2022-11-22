@@ -91,7 +91,11 @@ Depende de la implementacion de la queue:
 
 ### A :star:
 
-Idea es usar Dijkstra pero la elección de próximas aristas usamos una heuristica de distancia al final proveniente del problema a modelar. (En caso de mapas podría ser la distancia lineal, de uno a otro)
+Un algoritmo basado en Dijkstra para calcular la distancia uno a uno.
+
+Idea es usar Dijkstra pero la elección de próximas aristas usamos una heuristica de distancia al final proveniente del problema a modelar. (En caso de mapas podría ser la distancia lineal, de uno a otro).
+
+==No es necesario para el parcial==
 
 # CLASE 8
 
@@ -266,7 +270,7 @@ En otras palabras y segun Mr Cor:two_men_holding_hands: dado un sistema $Ax \leq
 
 ### ¿Por que funciona?
 
-
+==No es necesario para el parcial saber porque funciona==
 
 ### Propiedad: Suma a solucion.
 
@@ -276,16 +280,14 @@ Si $x_1, x_2, ..., x_n$ es solución factible para un sistema de ecuaciones $\im
 
 ## Complejidades Uno a Todos:
 
-|              | Algoritmo            | Complejidad      | Ralo             | Denso   |
-| ------------ | -------------------- | ---------------- | ---------------- | ------- |
-| No pesados   | DFS                  | O(V + E)         | O(V)             | O(V^2^) |
-| No negativos | Dickstrap :eggplant: | O(E + V*log(V))  | O(E\*log(V))[^1] | O(V^2^) |
-| general      | :bell:man-Ford       | O(V^2^) / O(V*E) | O(V^2^)          | O(V^2^) |
-| DAGs         | Topo-sort + B-F      | O(V)             | O(V)             | O(V^2^) |
+|              | Algoritmo       | Complejidades                                        |
+| ------------ | --------------- | ---------------------------------------------------- |
+| No pesados   | DFS             | O(V + E)                                             |
+| No negativos | Dijkstra        | O(E + V)*log(V)) cola de prioridad / $O(n^2)$ vector |
+| general      | :bell:man-Ford  | O(V*E)                                               |
+| DAGs         | Topo-sort + B-F | O(V)                                                 |
 
 
-
-[^1]: Solo si todas los nodos son accesibles desde el source. Si no es O((V+E)*log(V))
 
 # Clase 9:
 
@@ -293,13 +295,11 @@ Si $x_1, x_2, ..., x_n$ es solución factible para un sistema de ecuaciones $\im
 
 $l_{ij}^{(m)}$ es el peso <u>mínimo</u> de cualquier camino de i a j con como máximo m aristas. En el libro aparece con m en vez de p, pero prefiero p como en cuantos pasos llego.
 $$
-\left \{
-	\begin{align*}
-		\text{si} \ p = 0 \implies l_{ij}^{(0)} = 0 \ si \ i = j \\
-		\text{si} \ p = 0 \implies l_{ij}^{(0)} = \infin \ si \ i \neq j \\
-		\text{si} \ p > 0 \implies min\Big(l_{ij}^{(p-1)}, min_{1 \leq k \leq n}(l_{ik}^{(p-1)} + w_{kj})\Big)
-	\end{align*}
-\right .
+\begin{cases}
+    \text{si} \ p = 0 \implies& l_{ij}^{(0)} = 0 \ si \ i = j \\
+    \text{si} \ p = 0 \implies& l_{ij}^{(0)} = \infin \ si \ i \neq j \\
+    \text{si} \ p > 0 \implies& min\Big(l_{ij}^{(p-1)}, min_{1 \leq k \leq n}(l_{ik}^{(p-1)} + w_{kj})\Big)
+\end{cases}
 $$
 $w_{kj}$ devuelve el peso de la arista si existe, 0 si k = j y inf si no existe
 
@@ -307,7 +307,7 @@ Con esta funcion recursiva, podemos empezar a pensar en programacion dinamica pe
 
 ## Algoritmo de Floyd-Warshall ( :money_with_wings: )
 
-La idea general es que 
+==MUCHA PAJA VER LAS NOTAS DE JUAN==
 
 ## Algoritmo de Dantzig NO VISTO
 
