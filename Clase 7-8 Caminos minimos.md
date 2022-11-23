@@ -15,10 +15,10 @@ Costo: $$ Costo(t) = \sum_{e \in E} w(e)$$
 $$ d(u,v) $$ distancia estimada entre u y v, $$\delta(u, v,)$$ distancia minima real entre u y v.
 
 ```
-RELAX( u, v, w):
-	if(v.d > u.d + w(u,v)):
-		v.d = u.d + w(u,v)
-		v.pred = u
+    RELAX( u, v, w):
+        if(v.d > u.d + w(u,v)):
+            v.d = u.d + w(u,v)
+            v.pred = u
 ```
 
 **Propiedades de la relajación**:
@@ -161,7 +161,7 @@ $$
 	\end{pmatrix}
 \end{equation}
 $$
-Que se traducen en estas ecuaciones
+Que se traducen en estas ecuaciones:
 $$
 x_1 - x_5 \leq 0\\
 x_2 - x_3 \leq 5\\
@@ -210,7 +210,7 @@ flowchart LR
 	style v0 stroke: red;
 ```
 
-Usamos Bellman-Ford, desde v~0~ . Si bellman-:car: devuelve que False, es decir que existe un loop negativo dentro. Si devuelve true, las distancias devueltas son una posible solución. En nuestro ejemplo existe un loop negativo $\lang x_1, x_3, x_2, x_5\rang$ con peso $-20+5-1+0 = -16$
+Usamos Bellman-Ford, desde v~0~ . Si bellman-ford devuelve que False, es decir que existe un loop negativo dentro. Si devuelve true, las distancias devueltas son una posible solución. En nuestro ejemplo existe un loop negativo $\lang x_1, x_3, x_2, x_5\rang$ con peso $-20+5-1+0 = -16$
 
 ```mermaid
 flowchart LR
@@ -255,7 +255,7 @@ flowchart LR
 	x2 -->|-1| x5;
 ```
 
-Y si probamos en la concha de tu madre:
+Y si probamos con los valores que devuelve en la distancia:
 $$
 x_1 = -1,\ x_2 = 0,\ x_3 = -3,\ x_4 = 0,\ x_5 = -1\\ \\
 x_1 - x_5 \leq 0 \implies -1 - (-1) \leq 0 \ \checkmark\\
@@ -280,12 +280,12 @@ Si $x_1, x_2, ..., x_n$ es solución factible para un sistema de ecuaciones $\im
 
 ## Complejidades Uno a Todos:
 
-|              | Algoritmo       | Complejidades                                        |
-| ------------ | --------------- | ---------------------------------------------------- |
-| No pesados   | DFS             | O(V + E)                                             |
-| No negativos | Dijkstra        | O(E + V)*log(V)) cola de prioridad / $O(n^2)$ vector |
-| general      | :bell:man-Ford  | O(V*E)                                               |
-| DAGs         | Topo-sort + B-F | O(V)                                                 |
+|              | Algoritmo       | Complejidades                                           |
+| ------------ | --------------- | ------------------------------------------------------- |
+| No pesados   | DFS             | $O(V + E)$                                              |
+| No negativos | Dijkstra        | $O((E + V)*log(V))$ cola de prioridad / $O(n^2)$ vector |
+| general      | :bell:man-Ford  | $O(V*E)$                                                |
+| DAGs         | Topo-sort + B-F | $O(V)$                                                  |
 
 
 
@@ -321,10 +321,10 @@ Idea: Repesar las aristas en O(V*E) usando :bell:man. Despues correr a :eggplant
 
 ## Complejidades: Todos a todos
 
-| Algoritmo             | Complejidad            |
-| --------------------- | ---------------------- |
-| Floyd-Warshall (WIFI) | O(V^3^)                |
-| Dantzig               | O(V^3^)[^2]            |
-| Johnson               | O(V^2^ * log(V) + V*E) |
+| Algoritmo        | Complejidad            |
+| ---------------- | ---------------------- |
+| Floyd-Warshall ( | O(V^3^)                |
+| Dantzig          | O(V^3^)[^2]            |
+| Johnson          | O(V^2^ * log(V) + V*E) |
 
 [^2]: supongo

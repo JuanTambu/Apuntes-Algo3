@@ -272,24 +272,6 @@ Supongamos que $G_{x^*}$ tiene un ciclo de costo negativo y sea $\bar{x}$ una ci
 
 A partir de un flujo factible, podemos obtener flujos de la misma capacidad pero menor costo, hasta que no sea posible. Estas mejoras provienen de enciar flujo por los ciclos negativos del grafo residual de G. En particular si empezamos desde algun flujo maximo, podemos mejorarlo a un flujo maximo de costo minimo.
 
-### Ejemplo:
-
-![image-20221121195247485](Flujos Marenquianos.assets/image-20221121195247485.png)
-
-![image-20221121195414472](Flujos Marenquianos.assets/image-20221121195414472.png)
-
-![image-20221121195457822](Flujos Marenquianos.assets/image-20221121195457822.png)
-
-![image-20221121195509394](Flujos Marenquianos.assets/image-20221121195509394.png)
-
-![image-20221121195555818](Flujos Marenquianos.assets/image-20221121195555818.png)
-
-![image-20221121195611575](Flujos Marenquianos.assets/image-20221121195611575.png)
-
-![image-20221121195640965](Flujos Marenquianos.assets/image-20221121195640965.png)
-
-![image-20221121195658362](Flujos Marenquianos.assets/image-20221121195658362.png)
-
 ```
 encontrar flujo maximo
 Crear la red residual, correr bellman-ford desde t y encontrar un ciclo negativo
